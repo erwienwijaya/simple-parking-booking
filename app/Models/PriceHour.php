@@ -9,5 +9,9 @@ class PriceHour extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['starttime','endtime','price'];
+    protected $fillable = [
+        'starttime',
+        'endtime',
+        'price'
+    ];
 }

@@ -19,17 +19,20 @@ class BaySeeder extends Seeder
             [
                 'bayname' => "A",
                 'capacity' => 1,
-                'created_at' => now()
+                'created_at' => now(),
+                'updated_at' => now()
             ],
             [
                 'bayname' => "B",
                 'capacity' => 1,
-                'created_at' => now()
+                'created_at' => now(),
+                'updated_at' => now()
             ],
             [
                 'bayname' => "C",
                 'capacity' => 1,
-                'created_at' => now()
+                'created_at' => now(),
+                'updated_at' => now()
             ],
         ];
         DB::table('bays')->insert($posts);

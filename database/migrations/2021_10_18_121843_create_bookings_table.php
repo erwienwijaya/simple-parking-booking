@@ -18,9 +18,9 @@ class CreateBookingsTable extends Migration
             $table->foreignid('bay_id')->constrained('bays');
             $table->foreignid('price_id')->constrained('price_hours');
             $table->string('carnumber');
-            $table->timestamp('startsession')->default(now());
+            $table->timestamp('startsession');
             $table->timestamp('endsession');
-            $table->boolean('occupied')->default(0);
+            $table->boolean('occupied')->default(true);
             $table->timestamps();
         });
     }
