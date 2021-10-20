@@ -9,5 +9,8 @@ class Bay extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['bayname','capacity'];
+    protected $fillable = [
+        'bayname',
+        'capacity'
+    ];
 }

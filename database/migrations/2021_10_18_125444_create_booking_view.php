@@ -29,7 +29,7 @@ class CreateBookingView extends Migration
                 bookings
                 LEFT JOIN bays b on bookings.bay_id = b.id
                 LEFT JOIN price_hours ph on bookings.price_id = ph.id
-            ORDER BY bookings.created_at;
+            ORDER BY bookings.created_at DESC;
         ");
     }
 
