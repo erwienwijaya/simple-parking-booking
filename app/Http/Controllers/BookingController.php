@@ -22,7 +22,7 @@ class BookingController extends Controller
      */
     public function index()
     {
-        $booking = DB::select('SELECT * FROM bookings_view');
+        $booking = DB::select('SELECT * FROM booking_view');
 
         $response = [
             'message' => 'List booking successful',
@@ -201,14 +201,4 @@ class BookingController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

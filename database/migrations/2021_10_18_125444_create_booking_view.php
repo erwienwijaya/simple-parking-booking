@@ -15,7 +15,7 @@ class CreateBookingView extends Migration
     public function up()
     {
         DB::statement("
-            CREATE VIEW bookings_view
+            CREATE VIEW booking_view
             AS
             SELECT
                 b.bayname,
@@ -40,6 +40,6 @@ class CreateBookingView extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('booking_view');
+        DB::statement('DROP VIEW booking_view');
     }
 }

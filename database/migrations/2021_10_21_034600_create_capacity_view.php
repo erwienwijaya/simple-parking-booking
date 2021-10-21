@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
 
-class CapacityView extends Migration
+class CreateCapacityView extends Migration
 {
     /**
      * Run the migrations.
@@ -32,7 +32,7 @@ class CapacityView extends Migration
                 (a.capacity - COALESCE(b.total,0)) AS balance
              FROM bays a
              LEFT JOIN cte b ON a.id=b.bay_id
-             ORDER BY a.id ASC
+             ORDER BY a.id ASC;
         ");
     }
 
@@ -43,6 +43,6 @@ class CapacityView extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('capacity_view');
+        DB::statement('DROP VIEW capacity_view');
     }
 }
