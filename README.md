@@ -31,6 +31,7 @@ Docker development implementation for Laravel 8.\* with:
 ## Testing
 - Config testing : `.env.testing`
 - Database testing using `PostgreSQL` with database name = `testing`
+- Before running testing, make sure go inside first at: `docker exec -it Simple-Parking_php /bin/sh`
 - Run command: `php artisan test` or `php artisan test --env=testing`
 
 ## Documentation
