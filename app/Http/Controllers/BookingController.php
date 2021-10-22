@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 use function PHPUnit\Framework\isNull;
+use App\Http\Resources\BookingResource;
 
 class BookingController extends Controller
 {
@@ -20,6 +21,24 @@ class BookingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    /**
+     * @OA\Get(
+     * path="/api/booking",
+     * operationId="bookingList",
+     * summary="Get Booking List",
+     * tags={"Booking"},
+     * @OA\Response(
+     *     response=200,
+     *     description="Ok",
+     *  ),
+     *  @OA\Response(
+     *      response=500,
+     *      description="Internal server error",
+     *  )
+     * )
+     */
+
     public function index()
     {
         $booking = DB::select('SELECT * FROM booking_view');
@@ -38,6 +57,46 @@ class BookingController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+    /**
+     * @OA\Post(
+     * path="/api/booking",
+     * operationId="bookingCreated",
+     * summary="Booking Created",
+     * tags={"Booking"},
+     * @OA\Parameter(
+     *          name="bay_id",
+     *          description="bay id",
+     *          required=true,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *     ),
+     *     @OA\Parameter(
+     *          name="carnumber",
+     *          description="car number",
+     *          required=true,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *     ),
+     * @OA\Response(
+     *     response=201,
+     *     description="Created",
+     *  ),
+     *  @OA\Response(
+     *      response=422,
+     *      description="Unprocessable Entity",
+     *  ),
+     *  @OA\Response(
+     *      response=500,
+     *      description="Internal server error",
+     *  )
+     * )
+     */
+
     public function store(Request $request)
     {
         /*Merge request from body*/
@@ -120,8 +179,31 @@ class BookingController extends Controller
      * Display booking-available
      * @return \Illuminate\Http\Response
      */
+
+    /**
+     * @OA\Get(
+     * path="/api/booking-available",
+     * operationId="bookingAvailable",
+     * summary="Get Booking Available List",
+     * tags={"Booking"},
+     * @OA\Response(
+     *     response=200,
+     *     description="Ok",
+     *  ),
+     *  @OA\Response(
+     *      response=422,
+     *      description="Unprocessable Entity",
+     *  ),
+     *  @OA\Response(
+     *      response=500,
+     *      description="Internal server error",
+     *  )
+     * )
+     */
+
     public function availableBay()
     {
+
         $balance = DB::table('capacity_view')
                             ->get();
 
@@ -151,6 +233,41 @@ class BookingController extends Controller
      * @param  string  $car_number
      * @return \Illuminate\Http\Response
      */
+
+    /**
+     * @OA\Put(
+     * path="/api/booking/{car_number}",
+     * operationId="bookingUpdated",
+     * summary="Booking Updated",
+     * tags={"Booking"},
+     * @OA\Parameter(
+     *         name="car_number",
+     *         in="path",
+     *         description="car number",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     * @OA\Response(
+     *     response=200,
+     *     description="Ok",
+     *  ),
+     *   @OA\Response(
+     *      response=400,
+     *      description="Invalid car number"
+     *  ),
+     *  @OA\Response(
+     *      response=404,
+     *      description="Car number not found"
+     *  ),
+     *  @OA\Response(
+     *      response=500,
+     *      description="Internal server error",
+     *  )
+     * )
+     */
+
     public function update(Request $request, string $car_number)
     {
         /*Check by car number */

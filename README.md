@@ -25,11 +25,13 @@ Docker development implementation for Laravel 8.\* with:
 - Inside this container now you can run all the commands as if if you are on local environment:
 - Install composer dependencies: `composer install`
 - Generate key: `php artisan key:generate`
-- Run migration: `php artisan migrate`
-- Run seeder: `php artisan db:seed`
-- You can access the project at: `http://localhost:8000`
+- Run migration and seeder: `php artisan migrate:fresh --seed`
+- Access the project at: `http://localhost:8000`
 
 ## Testing
 - Config testing : `.env.testing`
 - Database testing using `PostgreSQL` with database name = `testing`
 - Run command: `php artisan test` or `php artisan test --env=testing`
+
+## Documentation
+- Access the API documentation at: `http://localhost:8000/api/documentation`
