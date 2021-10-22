@@ -1,0 +1,122 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Simple Parking Booking",
+        "description": "API Documentation",
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/booking": {
+            "get": {
+                "tags": [
+                    "Booking"
+                ],
+                "summary": "Get Booking List",
+                "operationId": "bookingList",
+                "responses": {
+                    "200": {
+                        "description": "Ok"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Booking"
+                ],
+                "summary": "Booking Created",
+                "operationId": "bookingCreated",
+                "parameters": [
+                    {
+                        "name": "bay_id",
+                        "in": "query",
+                        "description": "bay id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "carnumber",
+                        "in": "query",
+                        "description": "car number",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/booking-available": {
+            "get": {
+                "tags": [
+                    "Booking"
+                ],
+                "summary": "Get Booking Available List",
+                "operationId": "bookingAvailable",
+                "responses": {
+                    "200": {
+                        "description": "Ok"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/booking/{car_number}": {
+            "put": {
+                "tags": [
+                    "Booking"
+                ],
+                "summary": "Booking Updated",
+                "operationId": "bookingUpdated",
+                "parameters": [
+                    {
+                        "name": "car_number",
+                        "in": "path",
+                        "description": "car number",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok"
+                    },
+                    "400": {
+                        "description": "Invalid car number"
+                    },
+                    "404": {
+                        "description": "Car number not found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        }
+    },
+    "security": [
+        []
+    ]
+}
