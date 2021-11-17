@@ -7,6 +7,7 @@ use App\Models\Booking;
 use App\Models\PriceHour;
 use Carbon\Carbon;
 use Illuminate\Database\QueryException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -24,18 +25,33 @@ class BookingController extends Controller
 
     /**
      * @OA\Get(
-     * path="/api/booking",
-     * operationId="bookingList",
-     * summary="Get Booking List",
-     * tags={"Booking"},
-     * @OA\Response(
-     *     response=200,
-     *     description="Ok",
-     *  ),
-     *  @OA\Response(
-     *      response=500,
-     *      description="Internal server error",
-     *  )
+     *      path="/booking",
+     *      operationId="bookingList",
+     *      summary="Get Booking List",
+     *      tags={"Booking"},
+     *      security={{ "Bearer":{} }},
+     *      @OA\Response(
+     *          response=200,
+     *          description="Success",
+     *          @OA\JsonContent(ref="#/components/schemas/BookingViewResource")
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthorized",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiRequestException")
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal server error",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Internal server error"
+     *              )
+     *          )
+     *      )
      * )
      */
 
@@ -58,13 +74,16 @@ class BookingController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+
     /**
      * @OA\Post(
-     * path="/api/booking",
-     * operationId="bookingCreated",
-     * summary="Booking Created",
-     * tags={"Booking"},
-     * @OA\Parameter(
+     *      path="/booking",
+     *      operationId="bookingCreated",
+     *      summary="Booking Created",
+     *      tags={"Booking"},
+     *      security={{ "Bearer":{} }},
+     *
+     *      @OA\Parameter(
      *          name="bay_id",
      *          description="bay id",
      *          required=true,
@@ -72,8 +91,8 @@ class BookingController extends Controller
      *          @OA\Schema(
      *              type="integer"
      *          )
-     *     ),
-     *     @OA\Parameter(
+     *      ),
+     *      @OA\Parameter(
      *          name="carnumber",
      *          description="car number",
      *          required=true,
@@ -81,20 +100,49 @@ class BookingController extends Controller
      *          @OA\Schema(
      *              type="string"
      *          )
-     *     ),
-     * @OA\Response(
-     *     response=201,
-     *     description="Created",
-     *  ),
-     *  @OA\Response(
-     *      response=422,
-     *      description="Unprocessable Entity",
-     *  ),
-     *  @OA\Response(
-     *      response=500,
-     *      description="Internal server error",
-     *  )
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=201,
+     *          description="Created",
+     *          @OA\JsonContent(ref="#/components/schemas/BookingResource")
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Unprocessable Entity",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(
+     *                  property="message-1",
+     *                  type="string",
+     *                  example="Sorry unavailable booking, please check another bay!"
+     *              ),
+     *              @OA\Property(
+     *                  property="message-2",
+     *                  type="string",
+     *                  example="The Car already on bay!"
+     *              )
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthorized",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiRequestException")
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal server error",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Internal server error"
+     *              )
+     *          )
+     *      )
      * )
+     *
      */
 
     public function store(Request $request)
@@ -182,22 +230,86 @@ class BookingController extends Controller
 
     /**
      * @OA\Get(
-     * path="/api/booking-available",
-     * operationId="bookingAvailable",
-     * summary="Get Booking Available List",
-     * tags={"Booking"},
-     * @OA\Response(
-     *     response=200,
-     *     description="Ok",
-     *  ),
-     *  @OA\Response(
-     *      response=422,
-     *      description="Unprocessable Entity",
-     *  ),
-     *  @OA\Response(
-     *      response=500,
-     *      description="Internal server error",
-     *  )
+     *      path="/booking-available",
+     *      operationId="bookingAvailable",
+     *      summary="Get Booking Available List",
+     *      tags={"Booking"},
+     *      security={{ "Bearer":{} }},
+     *
+     *      @OA\Response(
+     *          response=422,
+     *          description="Unprocessable Entity",
+     *          @OA\JsonContent(
+     *               type="object",
+     *               @OA\Property(
+     *                   format="string",
+     *                   title="message",
+     *                   default="Fully booked!",
+     *                   description="message",
+     *                   property="message"
+     *               ),
+
+     *         )
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthorized",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiRequestException")
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Success",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Balance occupied"
+     *              ),
+     *             @OA\Property(
+     *                  property="data",
+     *                  type="array",
+     *                  example={
+     *                      {
+     *                           "bayname": "A",
+     *                           "balance": 1
+     *                      },
+     *                      {
+     *                          "bayname": "B",
+     *                          "balance": 1
+     *                      },
+     *                      {
+     *                          "bayname": "C",
+     *                          "balance": 1
+     *                      }
+     *                  },
+     *                  @OA\Items(
+     *                      @OA\Property(
+     *                         property="bayname",
+     *                         type="string",
+     *                         example=""
+     *                      ),
+     *                      @OA\Property(
+     *                         property="balance",
+     *                         type="integer",
+     *                         example=""
+     *                      ),
+     *                  )
+     *              )
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal server error",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Internal server error"
+     *              )
+     *          )
+     *      )
      * )
      */
 
@@ -236,11 +348,12 @@ class BookingController extends Controller
 
     /**
      * @OA\Put(
-     * path="/api/booking/{car_number}",
-     * operationId="bookingUpdated",
-     * summary="Booking Updated",
-     * tags={"Booking"},
-     * @OA\Parameter(
+     *      path="/booking/{car_number}",
+     *      operationId="bookingUpdated",
+     *      summary="Booking Updated",
+     *      tags={"Booking"},
+     *      security={{ "Bearer":{} }},
+     *      @OA\Parameter(
      *         name="car_number",
      *         in="path",
      *         description="car number",
@@ -248,23 +361,105 @@ class BookingController extends Controller
      *         @OA\Schema(
      *             type="string"
      *         )
-     *     ),
-     * @OA\Response(
-     *     response=200,
-     *     description="Ok",
-     *  ),
-     *   @OA\Response(
-     *      response=400,
-     *      description="Invalid car number"
-     *  ),
-     *  @OA\Response(
-     *      response=404,
-     *      description="Car number not found"
-     *  ),
-     *  @OA\Response(
-     *      response=500,
-     *      description="Internal server error",
-     *  )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Success",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Available for booking"
+     *              ),
+     *              @OA\Property(
+     *                  property="data",
+     *                  type="array",
+     *                  example={
+     *                      "id": 2,
+     *                      "bay_id": 2,
+     *                      "price_id": 5,
+     *                      "carnumber": "N414KI",
+     *                      "startsession": "2021-10-22 11:39:44",
+     *                      "endsession": "2021-11-16T13:15:03.678097Z",
+     *                      "occupied": false,
+     *                      "created_at": null,
+     *                      "updated_at": "2021-11-16T13:15:03.000000Z"
+     *                  },
+     *                  @OA\Items(
+     *                      @OA\Property(
+     *                         property="id",
+     *                         type="integer",
+     *                         example=""
+     *                      ),
+     *                      @OA\Property(
+     *                         property="bay_id",
+     *                         type="integer",
+     *                         example=""
+     *                      ),
+     *                      @OA\Property(
+     *                         property="price_id",
+     *                         type="integer",
+     *                         example=""
+     *                      ),
+     *                      @OA\Property(
+     *                         property="carnumber",
+     *                         type="string",
+     *                         example=""
+     *                      ),
+     *                      @OA\Property(
+     *                         property="startsession",
+     *                         type="datetime",
+     *                         example=""
+     *                      ),
+     *                      @OA\Property(
+     *                         property="endsession",
+     *                         type="datetime",
+     *                         example=""
+     *                      ),
+     *                      @OA\Property(
+     *                         property="occupied",
+     *                         type="boolean",
+     *                         example=""
+     *                      ),
+     *                      @OA\Property(
+     *                         property="created_at",
+     *                         type="datetime",
+     *                         example=""
+     *                      ),
+     *                      @OA\Property(
+     *                         property="updated_at",
+     *                         type="datetime",
+     *                         example=""
+     *                      )
+     *                   )
+     *                 )
+     *             )
+     *
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthorized",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiRequestException")
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not Found",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiNotFoundException")
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal server error",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Internal server error"
+     *              )
+     *          )
+     *      )
+     *
      * )
      */
 
@@ -272,7 +467,16 @@ class BookingController extends Controller
     {
         /*Check by car number */
         $booking = Booking::where('carnumber','=',$car_number)
-                            ->firstOrFail();
+                            ->first();
+
+        if ($booking == null) {
+            $resError = [
+                'message' => 'Car number not found!'
+            ];
+
+            return response()->json($resError,
+                Response::HTTP_NOT_FOUND);
+        }
 
         /*Get integer difference in Minutes*/
         $start = new Carbon($booking->startsession);
@@ -312,9 +516,11 @@ class BookingController extends Controller
             return response()->json($response, Response::HTTP_OK);
 
         } catch (QueryException $err) {
-            return response()->json([
-                'message' => 'Failed ' . $err->errorInfo
-            ]);
+
+                return response()->json([
+                    'message' => 'Failed ' . $err->errorInfo
+                ]);
+
         }
     }
 

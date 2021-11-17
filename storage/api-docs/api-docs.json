@@ -5,8 +5,13 @@
         "description": "API Documentation",
         "version": "1.0"
     },
+    "servers": [
+        {
+            "url": "/api"
+        }
+    ],
     "paths": {
-        "/api/booking": {
+        "/booking": {
             "get": {
                 "tags": [
                     "Booking"
@@ -15,12 +20,47 @@
                 "operationId": "bookingList",
                 "responses": {
                     "200": {
-                        "description": "Ok"
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BookingViewResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiRequestException"
+                                }
+                            }
+                        }
                     },
                     "500": {
-                        "description": "Internal server error"
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Internal server error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -50,18 +90,70 @@
                 ],
                 "responses": {
                     "201": {
-                        "description": "Created"
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BookingResource"
+                                }
+                            }
+                        }
                     },
                     "422": {
-                        "description": "Unprocessable Entity"
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message-1": {
+                                            "type": "string",
+                                            "example": "Sorry unavailable booking, please check another bay!"
+                                        },
+                                        "message-2": {
+                                            "type": "string",
+                                            "example": "The Car already on bay!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiRequestException"
+                                }
+                            }
+                        }
                     },
                     "500": {
-                        "description": "Internal server error"
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Internal server error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
             }
         },
-        "/api/booking-available": {
+        "/booking-available": {
             "get": {
                 "tags": [
                     "Booking"
@@ -69,19 +161,105 @@
                 "summary": "Get Booking Available List",
                 "operationId": "bookingAvailable",
                 "responses": {
-                    "200": {
-                        "description": "Ok"
-                    },
                     "422": {
-                        "description": "Unprocessable Entity"
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "title": "message",
+                                            "description": "message",
+                                            "format": "string",
+                                            "default": "Fully booked!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiRequestException"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Balance occupied"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "bayname": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "balance": {
+                                                        "type": "integer",
+                                                        "example": ""
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "example": [
+                                                {
+                                                    "bayname": "A",
+                                                    "balance": 1
+                                                },
+                                                {
+                                                    "bayname": "B",
+                                                    "balance": 1
+                                                },
+                                                {
+                                                    "bayname": "C",
+                                                    "balance": 1
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
                     "500": {
-                        "description": "Internal server error"
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Internal server error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
             }
         },
-        "/api/booking/{car_number}": {
+        "/booking/{car_number}": {
             "put": {
                 "tags": [
                     "Booking"
@@ -101,21 +279,289 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Ok"
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Available for booking"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": ""
+                                                    },
+                                                    "bay_id": {
+                                                        "type": "integer",
+                                                        "example": ""
+                                                    },
+                                                    "price_id": {
+                                                        "type": "integer",
+                                                        "example": ""
+                                                    },
+                                                    "carnumber": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "startsession": {
+                                                        "type": "datetime",
+                                                        "example": ""
+                                                    },
+                                                    "endsession": {
+                                                        "type": "datetime",
+                                                        "example": ""
+                                                    },
+                                                    "occupied": {
+                                                        "type": "boolean",
+                                                        "example": ""
+                                                    },
+                                                    "created_at": {
+                                                        "type": "datetime",
+                                                        "example": ""
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "datetime",
+                                                        "example": ""
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "example": {
+                                                "id": 2,
+                                                "bay_id": 2,
+                                                "price_id": 5,
+                                                "carnumber": "N414KI",
+                                                "startsession": "2021-10-22 11:39:44",
+                                                "endsession": "2021-11-16T13:15:03.678097Z",
+                                                "occupied": false,
+                                                "created_at": null,
+                                                "updated_at": "2021-11-16T13:15:03.000000Z"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
-                    "400": {
-                        "description": "Invalid car number"
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiRequestException"
+                                }
+                            }
+                        }
                     },
                     "404": {
-                        "description": "Car number not found"
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiNotFoundException"
+                                }
+                            }
+                        }
                     },
                     "500": {
-                        "description": "Internal server error"
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Internal server error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
             }
         }
     },
+    "components": {
+        "schemas": {
+            "ApiNotFoundException": {
+                "properties": {
+                    "message": {
+                        "description": "The err message",
+                        "type": "string",
+                        "example": "Car number not found"
+                    }
+                },
+                "type": "object"
+            },
+            "ApiRequestException": {
+                "properties": {
+                    "message": {
+                        "description": "The err message",
+                        "type": "string",
+                        "example": "Unauthenticated"
+                    }
+                },
+                "type": "object"
+            },
+            "BookingResource": {
+                "description": "Class BookingResource",
+                "properties": {
+                    "message": {
+                        "title": "message",
+                        "description": "message",
+                        "format": "string",
+                        "default": "Occupied"
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "example": ""
+                                },
+                                "bay_id": {
+                                    "type": "integer",
+                                    "example": ""
+                                },
+                                "carnumber": {
+                                    "type": "string",
+                                    "example": ""
+                                },
+                                "startsession": {
+                                    "type": "datetime",
+                                    "example": ""
+                                },
+                                "endsession": {
+                                    "type": "datetime",
+                                    "example": ""
+                                },
+                                "price_id": {
+                                    "type": "float",
+                                    "example": ""
+                                },
+                                "created_at": {
+                                    "type": "datetime",
+                                    "example": ""
+                                },
+                                "updated_at": {
+                                    "type": "datetime",
+                                    "example": ""
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "example": {
+                            "id": 1,
+                            "bay_id": 1,
+                            "carnumber": "L181KL",
+                            "startsession": "2021-10-22 11:39:44",
+                            "endsession": "2021-10-22 11:39:44",
+                            "updated_at": "2021-11-16T06:56:38.000000Z",
+                            "created_at": "2021-11-16T06:56:38.000000Z",
+                            "price_id": 1
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "BookingViewResource": {
+                "description": "Class BookingViewResource",
+                "properties": {
+                    "message": {
+                        "title": "message",
+                        "description": "message",
+                        "format": "string",
+                        "default": "List booking successful"
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "bayname": {
+                                    "type": "string",
+                                    "example": ""
+                                },
+                                "capacity": {
+                                    "type": "number",
+                                    "example": ""
+                                },
+                                "carnumber": {
+                                    "type": "string",
+                                    "example": ""
+                                },
+                                "startsession": {
+                                    "type": "datetime",
+                                    "example": ""
+                                },
+                                "endsession": {
+                                    "type": "datetime",
+                                    "example": ""
+                                },
+                                "occupied": {
+                                    "type": "boolean",
+                                    "example": ""
+                                },
+                                "price": {
+                                    "type": "float",
+                                    "example": ""
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "example": [
+                            {
+                                "bayname": "A",
+                                "capacity": 1,
+                                "carnumber": "L181KL",
+                                "startsession": "2021-10-22 11:39:44",
+                                "endsession": "2021-10-22 11:39:44",
+                                "occupied": true,
+                                "price": "0"
+                            },
+                            {
+                                "bayname": "",
+                                "capacity": 0,
+                                "carnumber": "",
+                                "startsession": "",
+                                "endsession": "",
+                                "occupied": true,
+                                "price": ""
+                            }
+                        ]
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "Bearer": {
+                "type": "apiKey",
+                "name": "Authorization",
+                "in": "header",
+                "scheme": "Bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Booking",
+            "description": "Authorize required"
+        }
+    ],
     "security": [
         []
     ]
