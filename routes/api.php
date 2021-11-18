@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\BookingController;
+use App\Http\Controllers\API\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,11 +16,14 @@ use \App\Http\Controllers\BookingController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware(['auth:sanctum'])->group(function() {
+    Route::get('/booking',[BookingController::class, 'index']);
+    Route::post('/booking',[BookingController::class, 'store']);
+    Route::put('/booking/{car_number}',[BookingController::class, 'update']);
+    Route::get('/booking-available',[BookingController::class, 'availableBay']);
+
+    Route::post('/logout',[AuthController::class,'logout']);
 });
 
-Route::get('/booking',[BookingController::class, 'index']);
-Route::post('/booking',[BookingController::class, 'store']);
-Route::put('/booking/{car_number}',[BookingController::class, 'update']);
-Route::get('/booking-available',[BookingController::class, 'availableBay']);
+Route::post('/register',[AuthController::class,'register']);
+Route::post('/login',[AuthController::class,'login']);

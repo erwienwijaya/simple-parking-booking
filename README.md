@@ -36,3 +36,4 @@ Docker development implementation for Laravel 8.\* with:
 
 ## Documentation
 - Access the API documentation at: `http://localhost:8000/api/documentation`
+- How to authorize: Bearer <token>
