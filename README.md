@@ -17,7 +17,7 @@ Docker development implementation for Laravel 8.\* with:
 
 ## Installation
 
-- Clone this repository `git clone git@github.com:erwienwijaya/simple-parking-booking.git`
+- Clone this repository `git clone https://github.com/erwienwijaya/simple-parking-booking.git`
 - Copy `.env` file: `cp .env.example .env`
 - Set the environment variables in `.env` file
 - Run command: `docker-compose up --build -d`
