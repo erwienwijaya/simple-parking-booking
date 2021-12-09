@@ -2,18 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bay;
 use App\Models\Booking;
 use App\Models\PriceHour;
 use Carbon\Carbon;
 use Illuminate\Database\QueryException;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
-use function PHPUnit\Framework\isNull;
-use App\Http\Resources\BookingResource;
 
 class BookingController extends Controller
 {
