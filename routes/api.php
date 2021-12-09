@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\BookingController;
 use App\Http\Controllers\API\AuthController;
@@ -27,3 +26,17 @@ Route::middleware(['auth:sanctum'])->group(function() {
 
 Route::post('/register',[AuthController::class,'register']);
 Route::post('/login',[AuthController::class,'login']);
+
+
+
+/*
+|----------------------------------------------------------
+| Endpoint : Test
+|----------------------------------------------------------
+|clone endpoint and then add suffix /test/<endpoint_name>
+*/
+Route::get('/test/booking',[BookingController::class, 'index']);
+Route::post('/test/booking',[BookingController::class, 'store']);
+Route::put('/test/booking/{car_number}',[BookingController::class, 'update']);
+Route::get('/test/booking-available',[BookingController::class, 'availableBay']);
+

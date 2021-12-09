@@ -18,7 +18,7 @@ class BookingTest extends TestCase
 
     public function test_get_booking_list()
     {
-        $this->get('api/booking')
+        $this->get('api/test/booking')
             ->assertStatus(200);
     }
 
@@ -29,7 +29,7 @@ class BookingTest extends TestCase
             'carnumber' => 'B991K'
         ];
 
-        $this->post('api/booking',$data)
+        $this->post('api/test/booking',$data)
             ->assertStatus(201);
     }
 
@@ -40,7 +40,7 @@ class BookingTest extends TestCase
             'carnumber' => 'L701K'
         ];
 
-        $this->post('api/booking',$data)
+        $this->post('api/test/booking',$data)
             ->assertStatus(422);
     }
 
@@ -51,7 +51,7 @@ class BookingTest extends TestCase
             'carnumber' => 'B911JK'
         ];
 
-        $this->post('api/booking',$data)
+        $this->post('api/test/booking',$data)
             ->assertStatus(422);
     }
 
@@ -61,25 +61,25 @@ class BookingTest extends TestCase
             'carnumber' => 'H8270FP'
         ];
 
-        $this->post('api/booking',$data)
+        $this->post('api/test/booking',$data)
             ->assertStatus(422);
     }
 
     public function test_put_payment()
     {
-        $this->put('api/booking/N414KI')
+        $this->put('api/test/booking/N414KI')
             ->assertStatus(200);
     }
 
     public function test_put_paymentcar_number_not_found()
     {
-        $this->put('api/booking/L902RT')
+        $this->put('api/test/booking/L902RT')
             ->assertStatus(404);
     }
 
     public function test_get_booking_available_list()
     {
-        $this->get('api/booking-available')
+        $this->get('api/test/booking-available')
             ->assertStatus(200);
     }
 
