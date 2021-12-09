@@ -28,12 +28,6 @@ class BookingViewResource extends JsonResource
 
     /**
      *         @OA\Property(
-     *                   format="string",
-     *                   title="message",
-     *                   default="List booking successful",
-     *                   description="message",
-     *                   property="message"),
-     *         @OA\Property(
      *                  property="data",
      *                  type="array",
      *                  example={{
@@ -91,7 +85,13 @@ class BookingViewResource extends JsonResource
      *                      )
      *                  ),
      *
-     *              )
+     *              ),
+     *         @OA\Property(
+     *                   format="string",
+     *                   title="message",
+     *                   default="List booking successful",
+     *                   description="message",
+     *                   property="message"),
      */
     public function toArray($request)
     {
