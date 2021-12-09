@@ -17,7 +17,7 @@ class BookingUnitTest extends TestCase
             'carnumber' => 'L701K'
         ];
 
-        $actual = $this->post('api/booking',$data)
+        $actual = $this->post('api/test/booking',$data)
                         ->getOriginalContent();
 
         $this->assertEquals($expected,$actual['message']);
@@ -33,7 +33,7 @@ class BookingUnitTest extends TestCase
             'carnumber' => 'B911JK'
         ];
 
-        $actual = $this->post('api/booking',$data)
+        $actual = $this->post('api/test/booking',$data)
             ->getOriginalContent();
 
         $this->assertEquals($expected,$actual['message']);
@@ -42,7 +42,7 @@ class BookingUnitTest extends TestCase
     public function test_put_payment_success()
     {
         $expected = 'Available for booking';
-        $actual = $this->put('api/booking/N414KI')
+        $actual = $this->put('api/test/booking/N414KI')
             ->getOriginalContent();
 
         $this->assertEquals($expected,$actual['message']);
